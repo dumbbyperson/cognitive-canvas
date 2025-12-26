@@ -1,0 +1,135 @@
+import { useState, useRef } from 'react';
+import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { Plus, Upload, X, ChevronLeft, ChevronRight, MapPin, Calendar, Camera } from 'lucide-react';
+
+interface Photo {
+  id: string;
+  src: string;
+  caption: string;
+  date: string;
+  location: string;
+}
+
+const PhotographySection = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
+
+  const emptyPhotos = Array.from({ length: 9 }, (_, i) => ({ id: String(i + 1) }));
+
+  return (
+    <section id="photography" className="py-24 md:py-32 bg-gradient-radial" ref={ref}>
+      <div className="container mx-auto px-4 md:px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-12"
+        >
+          <h2 className="section-header">Through My Lens</h2>
+          <p className="section-subheader max-w-2xl mx-auto">
+            When I'm not writing code or contemplating quantum mechanics, I'm usually behind a camera. Here's proof I occasionally go outside.
+          </p>
+        </motion.div>
+
+        {/* Photo grid */}
+        <div className="masonry-grid max-w-6xl mx-auto">
+          {emptyPhotos.map((photo, index) => {
+            // Vary heights for masonry effect
+            const heights = ['h-48', 'h-64', 'h-56', 'h-72', 'h-52', 'h-60'];
+            const height = heights[index % heights.length];
+
+            return (
+              <motion.div
+                key={photo.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: index * 0.05 }}
+                className="masonry-item"
+              >
+                <div
+                  className={`${height} rounded-xl border-2 border-dashed border-muted hover:border-primary/50 transition-colors cursor-pointer group flex flex-col items-center justify-center gap-3 bg-card/50`}
+                >
+                  <div className="p-4 rounded-full bg-muted group-hover:bg-primary/10 transition-colors">
+                    <Upload className="w-8 h-8 text-muted-foreground group-hover:text-primary transition-colors" />
+                  </div>
+                  <span className="text-sm text-muted-foreground">[Upload photo]</span>
+                  <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                    <span className="flex items-center gap-1">
+                      <MapPin className="w-3 h-3" />
+                      Location
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Calendar className="w-3 h-3" />
+                      Date
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* Add photo button */}
+        <motion.button
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.5, delay: 0.5 }}
+          className="mt-8 mx-auto flex items-center gap-2 px-4 py-2 rounded-lg border border-dashed border-muted hover:border-primary text-muted-foreground hover:text-primary transition-colors"
+        >
+          <Camera className="w-4 h-4" />
+          Add photos to gallery
+        </motion.button>
+
+        {/* Lightbox */}
+        <AnimatePresence>
+          {selectedPhoto && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 bg-background/95 backdrop-blur-lg flex items-center justify-center p-4"
+              onClick={() => setSelectedPhoto(null)}
+            >
+              <button
+                className="absolute top-4 right-4 p-2 rounded-lg bg-muted text-foreground hover:bg-muted/80"
+                onClick={() => setSelectedPhoto(null)}
+              >
+                <X className="w-6 h-6" />
+              </button>
+              
+              <button className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-lg bg-muted text-foreground hover:bg-muted/80">
+                <ChevronLeft className="w-6 h-6" />
+              </button>
+              
+              <button className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-lg bg-muted text-foreground hover:bg-muted/80">
+                <ChevronRight className="w-6 h-6" />
+              </button>
+
+              <div className="max-w-4xl w-full">
+                <div className="aspect-video bg-card rounded-xl flex items-center justify-center">
+                  <p className="text-muted-foreground">Photo will display here</p>
+                </div>
+                <div className="mt-4 text-center">
+                  <p className="text-lg font-medium">{selectedPhoto.caption}</p>
+                  <div className="flex items-center justify-center gap-4 text-sm text-muted-foreground mt-2">
+                    <span className="flex items-center gap-1">
+                      <MapPin className="w-4 h-4" />
+                      {selectedPhoto.location}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Calendar className="w-4 h-4" />
+                      {selectedPhoto.date}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </section>
+  );
+};
+
+export default PhotographySection;
