@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Mail, Github, Linkedin, Instagram } from 'lucide-react';
 
 const interests = [
   'Cybersecurity',
@@ -9,6 +9,13 @@ const interests = [
   'Astrophysics',
   'Cloud Computing',
   'Data Science',
+];
+
+const heroSocialLinks = [
+  { id: 'email', icon: Mail, label: 'Email', href: '#' },
+  { id: 'github', icon: Github, label: 'GitHub', href: '#' },
+  { id: 'linkedin', icon: Linkedin, label: 'LinkedIn', href: '#' },
+  { id: 'instagram', icon: Instagram, label: 'Instagram', href: '#' },
 ];
 
 const HeroSection = () => {
@@ -54,8 +61,8 @@ const HeroSection = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const scrollToThink = () => {
-    const element = document.getElementById('think');
+  const scrollToAbout = () => {
+    const element = document.getElementById('about');
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
@@ -92,9 +99,23 @@ const HeroSection = () => {
           </h1>
 
           {/* Tagline */}
-          <p className="text-xl md:text-2xl text-muted-foreground mb-8 font-mono">
+          <p className="text-xl md:text-2xl text-muted-foreground mb-6 font-mono">
             [Your Tagline]
           </p>
+
+          {/* Contact Links in Hero */}
+          <div className="flex items-center justify-center gap-4 mb-8">
+            {heroSocialLinks.map((link) => (
+              <a
+                key={link.id}
+                href={link.href}
+                className="p-3 rounded-lg bg-muted/50 border border-border hover:border-primary/50 hover:bg-primary/10 transition-all group"
+                title={link.label}
+              >
+                <link.icon className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+              </a>
+            ))}
+          </div>
 
           {/* Typing interests */}
           <div className="h-12 mb-12 flex items-center justify-center">
@@ -111,7 +132,7 @@ const HeroSection = () => {
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
             className="flex flex-col items-center gap-2 cursor-pointer group"
-            onClick={scrollToThink}
+            onClick={scrollToAbout}
           >
             <span className="text-sm text-muted-foreground group-hover:text-primary transition-colors">
               Scroll to explore
