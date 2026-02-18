@@ -113,6 +113,18 @@ export default {
           "60%": { transform: "skew(-1deg)" },
           "80%": { transform: "skew(1deg)" },
         },
+        "drift-slow": {
+          from: { transform: "translate(0, 0)" },
+          to: { transform: "translate(30px, 20px)" },
+        },
+        "drift-mid": {
+          from: { transform: "translate(0, 0)" },
+          to: { transform: "translate(-40px, 30px)" },
+        },
+        "drift-fast": {
+          from: { transform: "translate(0, 0)" },
+          to: { transform: "translate(20px, -25px)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -123,6 +135,9 @@ export default {
         "flicker": "flicker 4s ease-in-out infinite",
         "scan": "scan 8s linear infinite",
         "glitch-skew": "glitch-skew 0.5s ease-in-out",
+        "drift-slow": "drift-slow 40s ease-in-out infinite alternate",
+        "drift-mid": "drift-mid 25s ease-in-out infinite alternate",
+        "drift-fast": "drift-fast 15s ease-in-out infinite alternate",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

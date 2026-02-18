@@ -1,21 +1,9 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 
-interface CursorParticle {
-  id: number;
-  x: number;
-  y: number;
-  size: number;
-  color: string;
-  vx: number;
-  vy: number;
-  life: number;
-}
-
 const QuantumCursor = () => {
   const [mousePos, setMousePos] = useState({ x: -100, y: -100 });
-  const [isHovering, setIsHovering] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const particlesRef = useRef<CursorParticle[]>([]);
+  const particlesRef = useRef<{ id: number; x: number; y: number; size: number; color: string; vx: number; vy: number; life: number }[]>([]);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animRef = useRef<number>();
   const frameCount = useRef(0);
@@ -25,44 +13,29 @@ const QuantumCursor = () => {
     if (!isVisible) setIsVisible(true);
 
     frameCount.current++;
-    if (frameCount.current % 2 === 0) {
+    if (frameCount.current % 3 === 0) {
       particlesRef.current.push({
         id: Date.now() + Math.random(),
-        x: e.clientX + (Math.random() - 0.5) * 10,
-        y: e.clientY + (Math.random() - 0.5) * 10,
-        size: Math.random() * 3 + 1,
+        x: e.clientX + (Math.random() - 0.5) * 8,
+        y: e.clientY + (Math.random() - 0.5) * 8,
+        size: Math.random() * 2.5 + 0.5,
         color: Math.random() > 0.5 ? 'hsl(180, 100%, 50%)' : 'hsl(330, 100%, 50%)',
-        vx: (Math.random() - 0.5) * 2,
-        vy: (Math.random() - 0.5) * 2,
+        vx: (Math.random() - 0.5) * 1.5,
+        vy: (Math.random() - 0.5) * 1.5,
         life: 1,
       });
-      if (particlesRef.current.length > 30) {
-        particlesRef.current = particlesRef.current.slice(-30);
+      if (particlesRef.current.length > 25) {
+        particlesRef.current = particlesRef.current.slice(-25);
       }
     }
   }, [isVisible]);
 
   useEffect(() => {
-    const handleMouseOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      setIsHovering(
-        target.tagName === 'A' ||
-        target.tagName === 'BUTTON' ||
-        !!target.closest('button') ||
-        !!target.closest('a') ||
-        target.classList.contains('interactive')
-      );
-    };
-
     window.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseover', handleMouseOver, true);
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseover', handleMouseOver, true);
-    };
+    return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [handleMouseMove]);
 
-  // Canvas-based particle rendering for performance
+  // Canvas particle trail
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -84,15 +57,15 @@ const QuantumCursor = () => {
           ...p,
           x: p.x + p.vx,
           y: p.y + p.vy,
-          life: p.life - 0.025,
+          life: p.life - 0.03,
           size: p.size * 0.97,
         }))
         .filter(p => p.life > 0);
 
       particlesRef.current.forEach(p => {
-        ctx.globalAlpha = p.life * 0.6;
+        ctx.globalAlpha = p.life * 0.5;
         ctx.fillStyle = p.color;
-        ctx.shadowBlur = 12;
+        ctx.shadowBlur = 8;
         ctx.shadowColor = p.color;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
@@ -111,7 +84,6 @@ const QuantumCursor = () => {
     };
   }, []);
 
-  // Only show on non-touch devices
   const isTouchDevice = typeof window !== 'undefined' && 'ontouchstart' in window;
   if (isTouchDevice) return null;
 
@@ -122,34 +94,18 @@ const QuantumCursor = () => {
         className="fixed inset-0 pointer-events-none z-[9998]"
         aria-hidden="true"
       />
-      {/* Outer ring */}
-      <div
-        className="fixed pointer-events-none z-[9999] rounded-full border transition-all duration-150 ease-out"
-        style={{
-          left: mousePos.x - (isHovering ? 20 : 15),
-          top: mousePos.y - (isHovering ? 20 : 15),
-          width: isHovering ? 40 : 30,
-          height: isHovering ? 40 : 30,
-          borderColor: isHovering ? 'hsl(330, 100%, 50%)' : 'hsl(180, 100%, 50%)',
-          boxShadow: isHovering
-            ? '0 0 15px hsl(330 100% 50% / 0.5), inset 0 0 15px hsl(330 100% 50% / 0.1)'
-            : '0 0 10px hsl(180 100% 50% / 0.4), inset 0 0 10px hsl(180 100% 50% / 0.1)',
-          opacity: isVisible ? 1 : 0,
-          mixBlendMode: 'screen',
-        }}
-        aria-hidden="true"
-      />
-      {/* Inner dot */}
+      {/* Simple dot cursor */}
       <div
         className="fixed pointer-events-none z-[9999] rounded-full"
         style={{
-          left: mousePos.x - 3,
-          top: mousePos.y - 3,
-          width: 6,
-          height: 6,
-          backgroundColor: isHovering ? 'hsl(330, 100%, 50%)' : 'hsl(180, 100%, 50%)',
-          boxShadow: `0 0 8px ${isHovering ? 'hsl(330, 100%, 50%)' : 'hsl(180, 100%, 50%)'}`,
+          left: mousePos.x - 4,
+          top: mousePos.y - 4,
+          width: 8,
+          height: 8,
+          backgroundColor: 'hsl(180, 100%, 50%)',
+          boxShadow: '0 0 12px hsl(180 100% 50% / 0.6), 0 0 24px hsl(180 100% 50% / 0.3)',
           opacity: isVisible ? 1 : 0,
+          transition: 'opacity 0.2s',
         }}
         aria-hidden="true"
       />
