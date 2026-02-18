@@ -1,5 +1,6 @@
 import Navigation from '@/components/Navigation';
 import ParticleBackground from '@/components/ParticleBackground';
+import FloatingOrbs from '@/components/FloatingOrbs';
 import HeroSection from '@/components/sections/HeroSection';
 import AboutMeSection from '@/components/sections/AboutMeSection';
 import EducationSection from '@/components/sections/EducationSection';
@@ -17,7 +18,8 @@ import StickyContactButton from '@/components/StickyContactButton';
 
 const Index = () => {
   return (
-    <div className="relative min-h-screen grain">
+    <div className="relative min-h-screen grain scanlines-animated bg-animated-gradient">
+      <FloatingOrbs />
       <ParticleBackground />
       <Navigation />
       <EasterEggSystem />
