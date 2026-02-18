@@ -1,6 +1,8 @@
 import Navigation from '@/components/Navigation';
 import ParticleBackground from '@/components/ParticleBackground';
 import FloatingOrbs from '@/components/FloatingOrbs';
+import QuantumCursor from '@/components/QuantumCursor';
+import DepthLayers from '@/components/DepthLayers';
 import HeroSection from '@/components/sections/HeroSection';
 import AboutMeSection from '@/components/sections/AboutMeSection';
 import EducationSection from '@/components/sections/EducationSection';
@@ -19,6 +21,8 @@ import StickyContactButton from '@/components/StickyContactButton';
 const Index = () => {
   return (
     <div className="relative min-h-screen grain scanlines-animated bg-animated-gradient">
+      <QuantumCursor />
+      <DepthLayers />
       <FloatingOrbs />
       <ParticleBackground />
       <Navigation />
