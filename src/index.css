@@ -372,4 +372,89 @@
   .bg-gradient-radial {
     background: radial-gradient(ellipse at center, hsl(var(--card)) 0%, hsl(var(--background)) 70%);
   }
+
+  /* Animated gradient background */
+  .bg-animated-gradient {
+    background: linear-gradient(-45deg, #000000, #0a0a1a, #1a0a2e, #0a1a2e);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+  }
+
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Floating orbs */
+  .orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.15;
+    animation: orbFloat 20s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  .orb-1 {
+    width: 400px;
+    height: 400px;
+    background: hsl(var(--primary));
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+  }
+
+  .orb-2 {
+    width: 500px;
+    height: 500px;
+    background: hsl(var(--secondary));
+    top: 60%;
+    right: 10%;
+    animation-delay: 5s;
+  }
+
+  .orb-3 {
+    width: 350px;
+    height: 350px;
+    background: hsl(var(--tertiary));
+    bottom: 20%;
+    left: 50%;
+    animation-delay: 10s;
+  }
+
+  @keyframes orbFloat {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(50px, -50px) scale(1.1); }
+    66% { transform: translate(-30px, 30px) scale(0.9); }
+  }
+
+  @media (max-width: 768px) {
+    .orb { filter: blur(40px); opacity: 0.1; }
+    .orb-1 { width: 200px; height: 200px; }
+    .orb-2 { width: 250px; height: 250px; }
+    .orb-3 { display: none; }
+  }
+
+  /* Animated scanlines */
+  .scanlines-animated::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.15) 2px,
+      rgba(0, 0, 0, 0.15) 4px
+    );
+    pointer-events: none;
+    z-index: 99;
+    animation: scanMove 8s linear infinite;
+  }
+
+  @keyframes scanMove {
+    from { transform: translateY(0); }
+    to { transform: translateY(10px); }
+  }
 }
