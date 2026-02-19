@@ -17,7 +17,13 @@ import StickyContactButton from '@/components/StickyContactButton';
 
 const Index = () => {
   return (
-    <div className="relative min-h-screen grain">
+    <div className="relative min-h-screen grain app-background">
+      {/* Animated floating orbs */}
+      <div className="orb orb-1" aria-hidden="true" />
+      <div className="orb orb-2" aria-hidden="true" />
+      <div className="orb orb-3" aria-hidden="true" />
+      {/* VHS scanlines */}
+      <div className="scanline-overlay" aria-hidden="true" />
       <ParticleBackground />
       <Navigation />
       <EasterEggSystem />

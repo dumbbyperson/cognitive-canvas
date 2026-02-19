@@ -31,10 +31,11 @@ const ParticleBackground = () => {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Initialize particles
     const colors = ['#00ffff', '#ff006e', '#b967ff'];
-    const particleCount = Math.min(50, Math.floor(window.innerWidth / 30));
-    
+    const isMobile = window.innerWidth < 768;
+    const particleCount = isMobile ? 30 : Math.min(50, Math.floor(window.innerWidth / 30));
+
+    particlesRef.current = [];
     for (let i = 0; i < particleCount; i++) {
       particlesRef.current.push({
         x: Math.random() * canvas.width,
@@ -54,43 +55,37 @@ const ParticleBackground = () => {
     window.addEventListener('mousemove', handleMouseMove);
 
     const animate = () => {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       particlesRef.current.forEach((particle) => {
-        // Mouse influence
         const dx = mouseRef.current.x - particle.x;
         const dy = mouseRef.current.y - particle.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        
+
         if (dist < 150) {
           const force = (150 - dist) / 150;
           particle.vx += (dx / dist) * force * 0.02;
           particle.vy += (dy / dist) * force * 0.02;
         }
 
-        // Update position
         particle.x += particle.vx;
         particle.y += particle.vy;
-
-        // Apply friction
         particle.vx *= 0.99;
         particle.vy *= 0.99;
 
-        // Wrap around edges
         if (particle.x < 0) particle.x = canvas.width;
         if (particle.x > canvas.width) particle.x = 0;
         if (particle.y < 0) particle.y = canvas.height;
         if (particle.y > canvas.height) particle.y = 0;
 
-        // Draw particle with glow
         ctx.beginPath();
         ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
         ctx.fillStyle = particle.color;
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = particle.color;
         ctx.globalAlpha = particle.alpha;
         ctx.fill();
 
-        // Glow effect
         ctx.beginPath();
         ctx.arc(particle.x, particle.y, particle.size * 3, 0, Math.PI * 2);
         const gradient = ctx.createRadialGradient(
@@ -102,11 +97,10 @@ const ParticleBackground = () => {
         ctx.fillStyle = gradient;
         ctx.globalAlpha = particle.alpha * 0.3;
         ctx.fill();
-
+        ctx.shadowBlur = 0;
         ctx.globalAlpha = 1;
       });
 
-      // Draw connections
       particlesRef.current.forEach((p1, i) => {
         particlesRef.current.slice(i + 1).forEach((p2) => {
           const dx = p1.x - p2.x;
