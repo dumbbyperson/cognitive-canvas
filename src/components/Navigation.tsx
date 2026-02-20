@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
+import iconUrl from '@/icon.png';
 
 const navLinks = [
   { href: '#hero', label: 'Home' },
@@ -67,11 +68,10 @@ const Navigation = () => {
                 e.preventDefault();
                 handleNavClick('#hero');
               }}
-              className="font-mono text-lg font-bold text-primary hover:text-primary-glow transition-colors rgb-split"
+              className="flex items-center gap-2 font-mono text-lg font-bold text-primary hover:text-primary-glow transition-colors"
             >
-              {'<'}
-              <span className="text-foreground">/</span>
-              {'>'}
+              <img src={iconUrl} alt="" className="h-8 w-8 rounded object-contain" />
+              <span className="text-foreground">Student Portfolio</span>
             </a>
 
             {/* Desktop Navigation */}
