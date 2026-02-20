@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronDown, Mail, Github, Linkedin, Instagram } from 'lucide-react';
+import { ChevronDown, Mail, Github, Linkedin} from 'lucide-react';
 
 const interests = [
   'Cybersecurity',
@@ -9,13 +9,13 @@ const interests = [
   'Astrophysics',
   'Cloud Computing',
   'Data Science',
+  'Engineering',
 ];
 
 const heroSocialLinks = [
-  { id: 'email', icon: Mail, label: 'Email', href: '#' },
-  { id: 'github', icon: Github, label: 'GitHub', href: '#' },
-  { id: 'linkedin', icon: Linkedin, label: 'LinkedIn', href: '#' },
-  { id: 'instagram', icon: Instagram, label: 'Instagram', href: '#' },
+  { id: 'email', icon: Mail, label: 'Email', href: 'mailto:contact.monstrous803@slmail.me', target: '_blank' },
+  { id: 'github', icon: Github, label: 'GitHub', href: 'https://www.github.com/dumbbyperson', target: '_blank'  },
+  { id: 'linkedin', icon: Linkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/in/murtuza-moosa', target: '_blank'  },
 ];
 
 const HeroSection = () => {
@@ -93,14 +93,14 @@ const HeroSection = () => {
           {/* Glitch title */}
           <h1
             className="glitch text-5xl md:text-7xl lg:text-8xl font-mono font-bold mb-6 leading-tight"
-            data-text="[Your Name]"
+            data-text="[Murtuza Moosa]"
           >
-            [Your Name]
+            Murtuza Moosa
           </h1>
 
           {/* Tagline */}
           <p className="text-xl md:text-2xl text-muted-foreground mb-6 font-mono">
-            [Your Tagline]
+            Building on caffeine ☕ 
           </p>
 
           {/* Contact Links in Hero */}
