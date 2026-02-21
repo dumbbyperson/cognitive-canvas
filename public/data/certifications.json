@@ -1,0 +1,121 @@
+[
+  {
+    "id": "vibe-coding-bronze",
+    "name": "Vibe Coding L1: Bronze",
+    "issuer": "Lovable",
+    "issuedDate": "Feb 2026",
+    "skills": ["Vibe Coding"],
+    "category": "professional"
+  },
+  {
+    "id": "tata-cybersecurity",
+    "name": "Tata - Cybersecurity Analyst Job Simulation",
+    "issuer": "Forage",
+    "issuedDate": "Dec 2025",
+    "credentialId": "tTPe6Ra82M2GizJCm",
+    "credentialUrl": "https://www.theforage.com/completion-certificates/ifobHAoMjQs9s6bKS/gmf3ypEXBj2wvfQWC_ifobHAoMjQs9s6bKS_68cd31279df00756101693c9_1764637820741_completion_certificate.pdf",
+    "skills": ["Communication", "Critical Thinking", "Cybersecurity"],
+    "category": "professional"
+  },
+  {
+    "id": "kaggle-advanced-sql",
+    "name": "Advanced SQL",
+    "issuer": "Kaggle",
+    "issuedDate": "Dec 2025",
+    "skills": ["SQL", "Functional Programming", "Data Analysis", "Database Design", "Query Optimization", "ETL", "Reporting"],
+    "category": "professional"
+  },
+  {
+    "id": "kaggle-intro-sql",
+    "name": "Intro to SQL",
+    "issuer": "Kaggle",
+    "issuedDate": "Nov 2025",
+    "skills": ["Data Analysis", "SQL", "Databases"],
+    "category": "professional"
+  },
+  {
+    "id": "kaggle-python",
+    "name": "Python",
+    "issuer": "Kaggle",
+    "issuedDate": "Nov 2025",
+    "skills": ["Python", "Pandas", "Data Science", "Data Cleaning", "Visualization", "Machine Learning", "NumPy", "Jupyter"],
+    "category": "professional"
+  },
+  {
+    "id": "kaggle-intro-programming",
+    "name": "Intro to Programming",
+    "issuer": "Kaggle",
+    "issuedDate": "Nov 2025",
+    "skills": ["Programming", "Python"],
+    "category": "professional"
+  },
+  {
+    "id": "oci-architect-associate",
+    "name": "Oracle Cloud Infrastructure 2025 Certified Architect Associate",
+    "issuer": "Oracle",
+    "issuedDate": "Oct 2025",
+    "credentialUrl": "https://catalog-education.oracle.com/ords/certview/sharebadge?id=091250A6933DA4BA39E6A6CD8EFAB0E6E3450C8B322DA8A0915290AB9C612CC3",
+    "skills": ["OCI", "Cloud Management", "Architecture", "Networking", "Security", "Compute", "Storage", "Identity"],
+    "category": "professional"
+  },
+  {
+    "id": "oci-genai-professional",
+    "name": "Oracle Cloud Infrastructure 2025 Certified Generative AI Professional",
+    "issuer": "Oracle",
+    "issuedDate": "Oct 2025",
+    "credentialUrl": "https://catalog-education.oracle.com/ords/certview/sharebadge?id=CF1E0E91D1EC57EF1A3EDEE4B969752791A59097D4E4814206721E0D5CDDF27D",
+    "skills": ["Large Language Models (LLM)", "OCI", "Generative AI", "RAG", "Prompt Engineering", "Model Deployment", "AI Services", "Vector DB", "Inference", "Ethics"],
+    "category": "professional"
+  },
+  {
+    "id": "oracle-data-foundations",
+    "name": "Oracle Data Platform 2025 Certified Foundations Associate",
+    "issuer": "Oracle",
+    "issuedDate": "Oct 2025",
+    "credentialUrl": "https://catalog-education.oracle.com/ords/certview/sharebadge?id=C056548DDE1DB8E8C603592DB9FB8899B1BBBF4202C655AE6C8E597CB64BEC91",
+    "skills": ["Data Lakes", "OCI", "Data Integration", "Data Catalog", "Analytics", "Data Governance", "ETL", "Warehousing"],
+    "category": "professional"
+  },
+  {
+    "id": "oci-foundations-associate",
+    "name": "Oracle Cloud Infrastructure 2025 Certified Foundations Associate",
+    "issuer": "Oracle",
+    "issuedDate": "Oct 2025",
+    "credentialUrl": "https://catalog-education.oracle.com/ords/certview/sharebadge?id=BC0F2529068566147E6DEAAA70211B6956AA1D4AA55A2FE5530E890FA1726139",
+    "skills": ["OCI", "Cloud Management", "Compute", "Storage", "Networking", "Security", "Identity", "Monitoring", "Cost Management", "Governance", "Compliance", "Automation"],
+    "category": "professional"
+  },
+  {
+    "id": "oci-ai-foundations",
+    "name": "Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate",
+    "issuer": "Oracle",
+    "issuedDate": "Oct 2025",
+    "credentialUrl": "https://catalog-education.oracle.com/ords/certview/sharebadge?id=41E5B83EAB5D0B84F8EA68D90FBB8BC1C4972D59AE455F979A46A5B8AC6A5637",
+    "skills": ["OCI", "Oracle Applications", "AI/ML", "Data Science", "Model Training", "Inference", "AI Services", "Integration", "Best Practices"],
+    "category": "professional"
+  },
+  {
+    "id": "unreal-intuit",
+    "name": "Introduction to Unreal Engines",
+    "issuer": "École Intuit Lab",
+    "issuedDate": "Feb 2024",
+    "skills": ["Game Design", "Unreal Editor", "Blueprints", "3D", "Level Design", "Lighting", "Materials", "Animation"],
+    "category": "academic"
+  },
+  {
+    "id": "ux-scad",
+    "name": "UX Design: Research to Prototype",
+    "issuer": "Savannah College of Art and Design",
+    "issuedDate": "Jun 2024",
+    "skills": ["Usability Testing", "Empathy Mapping", "User Research", "Wireframing", "Prototyping", "Figma", "Design Systems", "Accessibility", "Information Architecture", "Personas", "Journey Maps", "Iteration", "Stakeholder Presentation", "Design Thinking"],
+    "category": "academic"
+  },
+  {
+    "id": "iot-hkbu",
+    "name": "Getting Started with IoT: Build Your Own Mobile App with Sensor Technology Workshop",
+    "issuer": "Hong Kong Baptist University",
+    "issuedDate": "Jul 2024",
+    "skills": ["Microcontrollers", "Sensors", "IoT", "Mobile Development", "Bluetooth", "Arduino/ESP", "Data Streaming", "APIs", "Prototyping", "Hardware", "Firmware"],
+    "category": "workshop"
+  }
+]

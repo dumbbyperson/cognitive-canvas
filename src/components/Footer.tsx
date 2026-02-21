@@ -26,7 +26,7 @@ const Footer = () => {
               Photographed by me. Coded by me. Overthought by me.
             </p>
             <p className="text-sm text-muted-foreground">
-              © {new Date().getFullYear()} [Your Name] | Currently debugging life.
+              © {new Date().getFullYear()} [Murtuza Moosa] | Currently debugging life.
             </p>
           </motion.div>
 
@@ -57,18 +57,11 @@ const Footer = () => {
             className="flex items-center justify-center gap-6 mb-8"
           >
             <a
-              href="#"
+              href="https://github.com/dumbbyperson/cognitive-canvas"
               className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
             >
               <Github className="w-4 h-4" />
               View Source
-            </a>
-            <a
-              href="#"
-              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
-            >
-              <Code2 className="w-4 h-4" />
-              Hosted on Lovable
             </a>
           </motion.div>
 

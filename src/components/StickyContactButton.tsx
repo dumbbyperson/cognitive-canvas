@@ -3,10 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X, Mail, Github, Linkedin, Instagram, Send } from 'lucide-react';
 
 const socialLinks = [
-  { id: 'email', icon: Mail, label: 'Email', placeholder: '[Your email]', href: '#' },
-  { id: 'github', icon: Github, label: 'GitHub', placeholder: '[Username]', href: '#' },
-  { id: 'linkedin', icon: Linkedin, label: 'LinkedIn', placeholder: '[Profile]', href: '#' },
-  { id: 'instagram', icon: Instagram, label: 'Instagram', placeholder: '[Username]', href: '#' },
+  { id: 'email', icon: Mail, label: 'Email', placeholder: '[contact.monstrous803@slmail.me]', href: 'mailto:contact.monstrous803@slmail.me', target: '_blank' },
+  { id: 'github', icon: Github, label: 'GitHub', placeholder: '[dumbbyperson]', href: 'https://www.github.com/dumbbyperson', target: '_blank' },
+  { id: 'linkedin', icon: Linkedin, label: 'LinkedIn', placeholder: '[Murtuza Moosa]', href: 'https://www.linkedin.com/in/murtuza-moosa', target: '_blank' },
 ];
 
 const StickyContactButton = () => {
@@ -72,6 +71,9 @@ const StickyContactButton = () => {
                       <a
                         key={link.id}
                         href={link.href}
+                        target={link.target}
+                        rel={link.target === '_blank' ? 'noopener noreferrer' : undefined}
+                        onClick={() => setIsOpen(false)}
                         className="flex items-center gap-3 p-3 rounded-lg border border-border hover:border-primary/50 hover:bg-primary/5 transition-all group"
                       >
                         <link.icon className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />

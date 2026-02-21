@@ -45,7 +45,7 @@ const EducationSection = () => {
                   <GraduationCap className="w-4 h-4 text-muted-foreground mt-1" />
                   <div>
                     <p className="text-sm text-muted-foreground">School Name</p>
-                    <p className="text-foreground">[Add school name]</p>
+                    <p className="text-foreground">Garodia International Centre for Learning</p>
                   </div>
                 </div>
 
@@ -53,7 +53,7 @@ const EducationSection = () => {
                   <MapPin className="w-4 h-4 text-muted-foreground mt-1" />
                   <div>
                     <p className="text-sm text-muted-foreground">Location</p>
-                    <p className="text-foreground">[Dublin, Ireland]</p>
+                    <p className="text-foreground">Mumbai, India</p>
                   </div>
                 </div>
 
@@ -61,7 +61,7 @@ const EducationSection = () => {
                   <Calendar className="w-4 h-4 text-muted-foreground mt-1" />
                   <div>
                     <p className="text-sm text-muted-foreground">Expected Graduation</p>
-                    <p className="text-foreground">[Year]</p>
+                    <p className="text-foreground">2026</p>
                   </div>
                 </div>
 
@@ -69,14 +69,9 @@ const EducationSection = () => {
                   <BookOpen className="w-4 h-4 text-muted-foreground mt-1" />
                   <div>
                     <p className="text-sm text-muted-foreground">Relevant Coursework</p>
-                    <p className="text-foreground">[Add subjects]</p>
+                    <p className="text-foreground">Mathematics, Physics, Computer Science</p>
                   </div>
                 </div>
-              </div>
-
-              <div className="mt-4 flex items-center gap-2 text-xs text-primary">
-                <Plus className="w-3 h-3" />
-                <span>Edit details</span>
               </div>
             </div>
           </motion.div>
@@ -95,7 +90,7 @@ const EducationSection = () => {
                 </div>
                 <div>
                   <h3 className="font-mono text-lg text-foreground">University</h3>
-                  <p className="text-sm text-muted-foreground">Starting 2025</p>
+                  <p className="text-sm text-muted-foreground">Starting 2026</p>
                 </div>
               </div>
 
@@ -104,7 +99,7 @@ const EducationSection = () => {
                   <GraduationCap className="w-4 h-4 text-muted-foreground mt-1" />
                   <div>
                     <p className="text-sm text-muted-foreground">Institution</p>
-                    <p className="text-foreground">[Add institution or TBD]</p>
+                    <p className="text-foreground">TBD</p>
                   </div>
                 </div>
 
@@ -112,7 +107,7 @@ const EducationSection = () => {
                   <BookOpen className="w-4 h-4 text-muted-foreground mt-1" />
                   <div>
                     <p className="text-sm text-muted-foreground">Program</p>
-                    <p className="text-foreground">[Engineering field]</p>
+                    <p className="text-foreground"></p>
                   </div>
                 </div>
 
@@ -120,14 +115,9 @@ const EducationSection = () => {
                   <School className="w-4 h-4 text-muted-foreground mt-1" />
                   <div>
                     <p className="text-sm text-muted-foreground">Focus Areas</p>
-                    <p className="text-foreground">[Add interests]</p>
+                    <p className="text-foreground">Computer Science, Mathematics, Physics</p>
                   </div>
                 </div>
-              </div>
-
-              <div className="mt-4 flex items-center gap-2 text-xs text-secondary">
-                <Plus className="w-3 h-3" />
-                <span>Edit details</span>
               </div>
             </div>
           </motion.div>
