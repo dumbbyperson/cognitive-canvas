@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
-import { X, ChevronLeft, ChevronRight, MapPin, Calendar } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, MapPin, Calendar, Upload } from 'lucide-react';
 
 interface Photo {
   id: number;
@@ -41,7 +41,9 @@ const PhotographySection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
   const [displayedPhotos, setDisplayedPhotos] = useState<Photo[]>(() => getRandomPhotos());
+  const [uploadedPhotos, setUploadedPhotos] = useState<Photo[]>([]);
   const [fadeKey, setFadeKey] = useState(0);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -51,15 +53,31 @@ const PhotographySection = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const selectedIndex = selectedPhoto ? displayedPhotos.findIndex(p => p.id === selectedPhoto.id) : -1;
+  const gridPhotos = [...uploadedPhotos, ...displayedPhotos].slice(0, VISIBLE_COUNT);
+  const selectedIndex = selectedPhoto ? gridPhotos.findIndex(p => p.id === selectedPhoto.id) : -1;
+
+  const handleAddPhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !file.type.startsWith('image/')) return;
+    const id = 1000 + uploadedPhotos.length;
+    const photo: Photo = {
+      id,
+      image: URL.createObjectURL(file),
+      caption: file.name.replace(/\.[^/.]+$/, ''),
+      location: 'Uploaded',
+      date: new Date().toLocaleDateString(),
+    };
+    setUploadedPhotos(prev => [...prev, photo]);
+    e.target.value = '';
+  };
 
   const goNext = () => {
-    const next = displayedPhotos[(selectedIndex + 1) % displayedPhotos.length];
+    const next = gridPhotos[(selectedIndex + 1) % gridPhotos.length];
     setSelectedPhoto(next);
   };
 
   const goPrev = () => {
-    const prev = displayedPhotos[(selectedIndex - 1 + displayedPhotos.length) % displayedPhotos.length];
+    const prev = gridPhotos[(selectedIndex - 1 + gridPhotos.length) % gridPhotos.length];
     setSelectedPhoto(prev);
   };
 
@@ -80,8 +98,31 @@ const PhotographySection = () => {
             When I'm not writing code or contemplating quantum mechanics, I'm usually behind a camera. Here's proof I occasionally go outside.
           </p>
           <p className="text-xs text-muted-foreground mt-2">
-            Showing 9 of 16 photos · Rotates every 10 seconds
+            Showing {gridPhotos.length} photos {uploadedPhotos.length > 0 ? `(${uploadedPhotos.length} yours)` : '(from gallery)'} · Rotates every 10s
           </p>
+          {uploadedPhotos.length > 0 && (
+            <p className="text-xs text-muted-foreground mt-1">
+              Your uploads appear first. Refresh to reset.
+            </p>
+          )}
+          <div className="mt-4 flex justify-center">
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleAddPhoto}
+              className="hidden"
+              aria-hidden
+            />
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-dashed border-primary/50 text-primary hover:bg-primary/10 transition-colors text-sm"
+            >
+              <Upload className="w-4 h-4" />
+              Add photo
+            </button>
+          </div>
         </motion.div>
 
         {/* Photo grid */}
@@ -94,8 +135,9 @@ const PhotographySection = () => {
             transition={{ duration: 0.6 }}
             className="masonry-grid max-w-6xl mx-auto"
           >
-            {displayedPhotos.map((photo, index) => {
+            {gridPhotos.map((photo, index) => {
               const height = heights[index % heights.length];
+              const isUploaded = photo.id >= 1000;
               return (
                 <motion.div
                   key={photo.id}
@@ -108,11 +150,21 @@ const PhotographySection = () => {
                     onClick={() => setSelectedPhoto(photo)}
                     className={`${height} rounded-xl border-2 border-dashed border-muted hover:border-primary/50 transition-colors cursor-pointer group flex flex-col items-center justify-center gap-3 bg-card/50 relative overflow-hidden`}
                   >
-                    <div className="p-4 rounded-full bg-muted group-hover:bg-primary/10 transition-colors">
-                      <MapPin className="w-8 h-8 text-muted-foreground group-hover:text-primary transition-colors" />
-                    </div>
-                    <span className="text-sm text-muted-foreground">[Upload photo]</span>
-                    <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                    {isUploaded && photo.image.startsWith('blob:') ? (
+                      <img
+                        src={photo.image}
+                        alt={photo.caption}
+                        className="absolute inset-0 w-full h-full object-cover rounded-xl"
+                      />
+                    ) : (
+                      <>
+                        <div className="p-4 rounded-full bg-muted group-hover:bg-primary/10 transition-colors">
+                          <MapPin className="w-8 h-8 text-muted-foreground group-hover:text-primary transition-colors" />
+                        </div>
+                        <span className="text-sm text-muted-foreground">View</span>
+                      </>
+                    )}
+                    <div className="absolute bottom-0 left-0 right-0 p-2 bg-background/80 text-xs text-muted-foreground flex items-center justify-center gap-2">
                       <span className="flex items-center gap-1">
                         <MapPin className="w-3 h-3" />
                         {photo.location}
@@ -163,8 +215,16 @@ const PhotographySection = () => {
               </button>
 
               <div className="max-w-4xl w-full" onClick={e => e.stopPropagation()}>
-                <div className="aspect-video bg-card rounded-xl flex items-center justify-center">
-                  <p className="text-muted-foreground">Photo will display here</p>
+                <div className="aspect-video bg-card rounded-xl flex items-center justify-center overflow-hidden">
+                  {selectedPhoto.image.startsWith('blob:') || selectedPhoto.image.startsWith('http') ? (
+                    <img
+                      src={selectedPhoto.image}
+                      alt={selectedPhoto.caption}
+                      className="w-full h-full object-contain"
+                    />
+                  ) : (
+                    <p className="text-muted-foreground">Photo will display here</p>
+                  )}
                 </div>
                 <div className="mt-4 text-center">
                   <p className="text-lg font-medium">{selectedPhoto.caption}</p>

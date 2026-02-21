@@ -15,6 +15,12 @@ export interface Certification {
   issuerLogoUrl?: string;
 }
 
+/** Allow only https or relative URLs for credential links (prevents javascript:/data: etc if JSON is ever untrusted). */
+function isSafeCredentialUrl(url: string): boolean {
+  const t = url.trim().toLowerCase();
+  return t.startsWith('https://') || t.startsWith('/');
+}
+
 /** Map issuer name → domain for fetching company logo (Google favicon service). */
 const ISSUER_DOMAINS: Record<string, string> = {
   Lovable: 'lovable.dev',
@@ -288,7 +294,7 @@ const CertificationsSection = () => {
                   </p>
                 )}
                 <div className="ml-auto flex items-center gap-2">
-                  {cert.credentialUrl && (
+                  {cert.credentialUrl && isSafeCredentialUrl(cert.credentialUrl) && (
                     <a
                       href={cert.credentialUrl}
                       target="_blank"

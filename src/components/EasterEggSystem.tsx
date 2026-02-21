@@ -44,11 +44,18 @@ const EasterEggSystem = () => {
     console.log('%cBugs found: Please report them. I\'ll fix them. Probably.', 'color: #666;');
   }, []);
 
-  // Load saved eggs
+  // Load saved eggs (guard against malformed localStorage data)
   useEffect(() => {
-    const saved = localStorage.getItem('easterEggs');
-    if (saved) {
-      setFoundEggs(JSON.parse(saved));
+    try {
+      const saved = localStorage.getItem('easterEggs');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.every((x) => typeof x === 'string')) {
+          setFoundEggs(parsed);
+        }
+      }
+    } catch {
+      // Ignore corrupted or non-JSON data
     }
   }, []);
 
