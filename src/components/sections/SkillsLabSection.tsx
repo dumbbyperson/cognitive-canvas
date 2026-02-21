@@ -3,10 +3,30 @@ import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Bot, Shield, BarChart3, Atom, Telescope, Activity, Send, Check, X, Lock, Eye, EyeOff, HelpCircle } from 'lucide-react';
 
-// Demo 1: AI Chatbot
+// Demo 1: AI Chatbot – keyword-based portfolio responses
+function getBotResponse(userInput: string): string {
+  const q = userInput.toLowerCase().trim();
+  if (q.includes('skill') || q.includes('tech') || q.includes('know')) {
+    return "I work with React, TypeScript, Python, SQL, cloud (OCI), and love cybersecurity, AI/ML, and quantum computing. Check the Skills section for the full list!";
+  }
+  if (q.includes('project') || q.includes('built') || q.includes('build')) {
+    return "I'm building this portfolio and have more projects in the pipeline. The Work section has what I've shipped so far.";
+  }
+  if (q.includes('yourself') || q.includes('about you') || q.includes('who are you')) {
+    return "I'm Murtuza — into quantum, space, code, and photography. Scroll the site to see certs, projects, and what I'm learning.";
+  }
+  if (q.includes('contact') || q.includes('email') || q.includes('reach')) {
+    return "Use the Let's Talk button or the contact links in the hero. I'm happy to chat!";
+  }
+  if (q.includes('cert') || q.includes('course') || q.includes('learn')) {
+    return "I've got certs from Oracle (OCI, Gen AI), Kaggle, Forage, and more. See the Certifications section for verifiable credentials.";
+  }
+  return "That's a good question! For skills, projects, or background, try the suggestions above — or just scroll around the site.";
+}
+
 const ChatbotDemo = () => {
   const [messages, setMessages] = useState<{ role: 'user' | 'bot'; text: string }[]>([
-    { role: 'bot', text: "Hi! I'm a placeholder chatbot. Configure my responses to tell visitors about yourself." }
+    { role: 'bot', text: "Hi! I'm the portfolio bot. Ask about skills, projects, or background — or try the quick questions below." }
   ]);
   const [input, setInput] = useState('');
 
@@ -18,14 +38,12 @@ const ChatbotDemo = () => {
 
   const handleSend = () => {
     if (!input.trim()) return;
-    setMessages(prev => [...prev, { role: 'user', text: input }]);
-    setTimeout(() => {
-      setMessages(prev => [...prev, { 
-        role: 'bot', 
-        text: "[Configure response for: '" + input + "']" 
-      }]);
-    }, 500);
+    const userText = input.trim();
+    setMessages(prev => [...prev, { role: 'user', text: userText }]);
     setInput('');
+    setTimeout(() => {
+      setMessages(prev => [...prev, { role: 'bot', text: getBotResponse(userText) }]);
+    }, 400);
   };
 
   return (
@@ -166,22 +184,78 @@ const PasswordDemo = () => {
   );
 };
 
-// Demo 3: Data Visualization
+// Demo 3: Data Visualization – CSV/JSON upload
+const DEFAULT_VIZ_DATA = [
+  { label: 'Jan', value: 0 },
+  { label: 'Feb', value: 0 },
+  { label: 'Mar', value: 0 },
+  { label: 'Apr', value: 0 },
+  { label: 'May', value: 0 },
+  { label: 'Jun', value: 0 },
+];
+
+function parseVizFile(content: string, filename: string): { label: string; value: number }[] {
+  const ext = filename.toLowerCase();
+  if (ext.endsWith('.json')) {
+    const parsed = JSON.parse(content) as unknown;
+    if (Array.isArray(parsed)) {
+      return parsed.map((item: unknown) => {
+        const o = item as Record<string, unknown>;
+        const label = String(o?.label ?? o?.name ?? o?.x ?? '');
+        const value = Number(o?.value ?? o?.y ?? 0);
+        return { label: String(label), value: Number.isNaN(value) ? 0 : value };
+      });
+    }
+    const obj = parsed as Record<string, unknown>;
+    const labels = (obj.labels ?? obj.x ?? []) as string[];
+    const values = (obj.values ?? obj.y ?? []) as number[];
+    return (labels as string[]).map((l, i) => ({ label: l, value: Number(values[i]) || 0 }));
+  }
+  if (ext.endsWith('.csv')) {
+    const lines = content.trim().split(/\r?\n/).filter(Boolean);
+    const headers = lines[0].split(',').map(h => h.trim());
+    const labelCol = headers.find(h => /label|name|x|category/i.test(h)) ?? headers[0];
+    const valueCol = headers.find(h => /value|y|count|amount/i.test(h)) ?? headers[1];
+    const li = headers.indexOf(labelCol);
+    const vi = headers.indexOf(valueCol);
+    return lines.slice(1).map(line => {
+      const parts = line.split(',').map(p => p.trim());
+      return { label: parts[li] ?? '', value: Number(parts[vi]) || 0 };
+    });
+  }
+  return DEFAULT_VIZ_DATA;
+}
+
 const DataVizDemo = () => {
   const [chartType, setChartType] = useState<'bar' | 'line'>('bar');
-  const data = [
-    { label: 'Jan', value: 0 },
-    { label: 'Feb', value: 0 },
-    { label: 'Mar', value: 0 },
-    { label: 'Apr', value: 0 },
-    { label: 'May', value: 0 },
-    { label: 'Jun', value: 0 },
-  ];
-  const maxValue = 100;
+  const [data, setData] = useState<{ label: string; value: number }[]>(DEFAULT_VIZ_DATA);
+  const [fileName, setFileName] = useState<string | null>(null);
+
+  const maxValue = Math.max(...data.map(d => d.value), 1);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const parsed = parseVizFile(reader.result as string, file.name);
+        if (parsed.length) {
+          setData(parsed);
+          setFileName(file.name);
+        }
+      } catch {
+        setData(DEFAULT_VIZ_DATA);
+        setFileName(null);
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
+  };
 
   return (
     <div className="p-6 space-y-4">
-      <div className="flex gap-2">
+      <div className="flex gap-2 flex-wrap items-center">
         <button
           onClick={() => setChartType('bar')}
           className={`px-3 py-1 rounded text-sm ${chartType === 'bar' ? 'bg-primary text-primary-foreground' : 'bg-muted text-muted-foreground'}`}
@@ -198,25 +272,33 @@ const DataVizDemo = () => {
 
       <div className="h-48 flex items-end justify-around gap-2 border-b border-l border-border p-4">
         {data.map((d, i) => (
-          <div key={i} className="flex flex-col items-center gap-2 flex-1">
+          <div key={i} className="flex flex-col items-center gap-2 flex-1 min-w-0">
             {chartType === 'bar' ? (
-              <div 
-                className="w-full bg-primary/20 border-2 border-primary border-dashed rounded-t flex items-center justify-center"
-                style={{ height: '100px' }}
+              <div
+                className="w-full bg-primary/20 border-2 border-primary rounded-t flex items-center justify-center transition-all"
+                style={{ height: `${Math.max(8, (d.value / maxValue) * 120)}px` }}
               >
-                <span className="text-xs text-muted-foreground">[Data]</span>
+                <span className="text-xs text-muted-foreground truncate max-w-full">{d.value}</span>
               </div>
             ) : (
               <div className="w-3 h-3 rounded-full border-2 border-primary bg-background" />
             )}
-            <span className="text-xs text-muted-foreground">{d.label}</span>
+            <span className="text-xs text-muted-foreground truncate max-w-full" title={d.label}>{d.label}</span>
           </div>
         ))}
       </div>
 
-      <p className="text-sm text-muted-foreground text-center italic">
-        Upload CSV or JSON data to visualize
-      </p>
+      <div className="flex flex-col items-center gap-2">
+        <label className="text-sm text-muted-foreground italic">
+          {fileName ? `Loaded: ${fileName}` : 'Upload CSV or JSON to visualize'}
+        </label>
+        <input
+          type="file"
+          accept=".csv,.json"
+          onChange={handleFileChange}
+          className="text-xs file:mr-2 file:py-1 file:px-2 file:rounded file:border file:border-primary file:bg-primary/10 file:text-primary"
+        />
+      </div>
     </div>
   );
 };

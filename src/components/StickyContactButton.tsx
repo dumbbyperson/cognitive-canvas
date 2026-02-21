@@ -3,13 +3,23 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X, Mail, Github, Linkedin, Instagram, Send } from 'lucide-react';
 
 const socialLinks = [
-  { id: 'email', icon: Mail, label: 'Email', placeholder: '[contact.monstrous803@slmail.me]', href: 'mailto:contact.monstrous803@slmail.me', target: '_blank' },
+  { id: 'email', icon: Mail, label: 'Email', placeholder: '[contact.monstrous803@slmail.me]', href: 'mailto:contact.monstrous803@slmail.me' },
   { id: 'github', icon: Github, label: 'GitHub', placeholder: '[dumbbyperson]', href: 'https://www.github.com/dumbbyperson', target: '_blank' },
   { id: 'linkedin', icon: Linkedin, label: 'LinkedIn', placeholder: '[Murtuza Moosa]', href: 'https://www.linkedin.com/in/murtuza-moosa', target: '_blank' },
 ];
 
+const CONTACT_EMAIL = 'contact.monstrous803@slmail.me';
+
 const StickyContactButton = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [quickMessage, setQuickMessage] = useState('');
+
+  const handleSendMessage = () => {
+    const subject = encodeURIComponent('Message from portfolio');
+    const body = encodeURIComponent(quickMessage.trim() || 'Hello, I wanted to reach out from your portfolio.');
+    window.location.href = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+    setQuickMessage('');
+  };
 
   return (
     <>
@@ -91,15 +101,23 @@ const StickyContactButton = () => {
                     <div className="flex gap-2">
                       <input
                         type="text"
+                        value={quickMessage}
+                        onChange={(e) => setQuickMessage(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
                         placeholder="Your message..."
                         className="flex-1 px-3 py-2 rounded-lg bg-input border border-border text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                       />
-                      <button className="p-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
+                      <button
+                        type="button"
+                        onClick={handleSendMessage}
+                        className="p-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+                        aria-label="Send message via email"
+                      >
                         <Send className="w-4 h-4" />
                       </button>
                     </div>
                     <p className="text-xs text-muted-foreground mt-2 italic">
-                      Configure email backend to enable messaging
+                      Opens your email client to send
                     </p>
                   </div>
                 </div>
