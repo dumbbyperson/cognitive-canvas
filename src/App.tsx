@@ -13,7 +13,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      <BrowserRouter basename="/cognitive-canvas">
         <Routes>
           <Route path="/" element={<Index />} />
           {/* Add custom routes above the catch-all "*" route */}

@@ -1,73 +1,107 @@
-# Welcome to your Lovable project
+# Cognitive Canvas — Student Portfolio
 
-## Project info
+A personal portfolio website showcasing projects, certifications, skills, and creative work. Built as a modern, interactive single-page application with a focus on quantum computing, cybersecurity, AI/ML, and astrophysics.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Features
 
-## How can I edit this code?
+- **Interactive Sections**: Hero, About, Skills, Certifications, Projects, Photography, and more
+- **Skills Lab**: Interactive demos including chatbot, password strength checker, data visualization, quantum circuit simulator, and exoplanet calculator
+- **Systems Map**: Interactive force-directed graph visualization
+- **Responsive Design**: Mobile-first approach with smooth animations
+- **GitHub Pages Deployment**: Automatically deployed via GitHub Actions
 
-There are several ways of editing your application.
+## Tech Stack
 
-**Use Lovable**
+- **React 18** with TypeScript
+- **Vite** for fast development and optimized builds
+- **Tailwind CSS** for styling
+- **Framer Motion** for animations
+- **React Router** for navigation
+- **shadcn/ui** components
+- **D3.js** for data visualization
+- **Recharts** for charts
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## Getting Started
 
-Changes made via Lovable will be committed automatically to this repo.
+### Prerequisites
 
-**Use your preferred IDE**
+- Node.js 20+ and npm
+- Git
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+### Installation
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# Clone the repository
+git clone https://github.com/dumbbyperson/cognitive-canvas.git
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Navigate to the project directory
+cd cognitive-canvas
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Install dependencies
+npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start the development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The site will be available at `http://localhost:8080`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Building for Production
 
-**Use GitHub Codespaces**
+```sh
+# Build for production
+npm run build
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+# Preview the production build locally
+npm run preview
+```
 
-## What technologies are used for this project?
+## Project Structure
 
-This project is built with:
+```
+cognitive-canvas/
+├── src/
+│   ├── components/      # React components
+│   │   ├── sections/   # Page sections
+│   │   └── ui/         # Reusable UI components
+│   ├── pages/          # Page components
+│   ├── hooks/          # Custom React hooks
+│   └── lib/            # Utility functions
+├── public/             # Static assets
+│   └── data/           # JSON data files
+├── scripts/            # Build and sync scripts
+└── .github/workflows/  # CI/CD configuration
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Deployment
 
-## How can I deploy this project?
+The site is automatically deployed to GitHub Pages via GitHub Actions when changes are pushed to the `main` branch.
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+**Live Site**: [https://dumbbyperson.github.io/cognitive-canvas/](https://dumbbyperson.github.io/cognitive-canvas/)
 
-## Can I connect a custom domain to my Lovable project?
+## Development
 
-Yes, you can!
+### Available Scripts
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run lint` - Run ESLint
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+### Updating Certifications
+
+Certifications can be synced from a LinkedIn data export:
+
+```sh
+node scripts/sync-linkedin-certs.js <path-to-linkedin-export>
+```
+
+See `public/data/README.md` for detailed instructions.
+
+## License
+
+This project is open source and available under the MIT License.
+
+---
+
+**Built with** [Cursor](https://cursor.sh) and [Lovable](https://lovable.dev)

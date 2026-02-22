@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { ArrowUp, Github, Code2 } from 'lucide-react';
+import { ArrowUp, Github, Code2, Sparkles } from 'lucide-react';
 
 const techStack = ['React', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'D3.js'];
 
@@ -25,9 +25,33 @@ const Footer = () => {
             <p className="text-muted-foreground mb-4">
               Photographed by me. Coded by me. Overthought by me.
             </p>
-            <p className="text-sm text-muted-foreground">
-              © {new Date().getFullYear()} [Murtuza Moosa] | Currently debugging life.
+            <p className="text-sm text-muted-foreground mb-3">
+              © {new Date().getFullYear()} Murtuza Moosa | Currently debugging life.
             </p>
+            <div className="flex items-center justify-center gap-3 text-xs text-muted-foreground flex-wrap">
+              <span>Built with</span>
+              <a
+                href="https://cursor.sh"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-muted/50 border border-border hover:border-primary/50 hover:text-primary transition-all group"
+                aria-label="Cursor"
+              >
+                <Code2 className="w-3.5 h-3.5" />
+                <span className="group-hover:underline font-mono">Cursor</span>
+              </a>
+              <span className="text-muted-foreground/50">&</span>
+              <a
+                href="https://lovable.dev"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-muted/50 border border-border hover:border-primary/50 hover:text-primary transition-all group"
+                aria-label="Lovable"
+              >
+                <Sparkles className="w-3.5 h-3.5" />
+                <span className="group-hover:underline font-mono">Lovable</span>
+              </a>
+            </div>
           </motion.div>
 
           {/* Tech stack badges */}
