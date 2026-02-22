@@ -1,13 +1,14 @@
 # Security Audit — Cognitive Canvas
 
 **Date:** 2026-02-21  
-**Scope:** Full codebase (front-end React app, scripts, config, CI).
+**Scope:** Full codebase (front-end React app, scripts, config, CI).  
+**Repo:** Public (GitHub Pages).
 
 ---
 
 ## Executive summary
 
-The project is a **static Vite + React portfolio** with no backend, no auth, and no use of env-based secrets. Risk is low. A few hardening changes were applied; the rest are recommendations for production and future changes.
+The project is a **static Vite + React portfolio** with no backend, no auth, and no use of env-based secrets. **No secrets are leaked.** Risk is low. A few hardening changes were applied; the rest are recommendations for production and future changes.
 
 ---
 
@@ -47,7 +48,7 @@ The project is a **static Vite + React portfolio** with no backend, no auth, and
 
 ## 2. Data and privacy
 
-- **PII:** No collection or sending of PII. Contact form is placeholder (no backend).
+- **PII:** No collection or sending of PII. Contact email and GitHub handle are intentionally public (portfolio contact info).
 - **localStorage:** Only easter-egg IDs (e.g. `['konami','name-click']`); no sensitive data.
 - **Static data:** `public/data/certifications.json` and in-code defaults contain public credential/badge URLs and course info; no secrets.
 
@@ -57,3 +58,17 @@ The project is a **static Vite + React portfolio** with no backend, no auth, and
 
 - **Vulnerabilities:** No critical or high-severity issues found. Two defensive improvements were applied: URL validation for certification links and safe parsing of easter-egg localStorage.
 - **Production readiness:** Safe to ship from a security perspective, with dependency audit and optional CSP/console cleanup as follow-ups.
+
+---
+
+## 4. Public-repo checklist (no secrets leaked)
+
+| Check | Status |
+|-------|--------|
+| API keys, tokens (sk-, ghp_, xox-, etc.) | None found |
+| `.env` files in repo | None; `.gitignore` updated to block `.env` and `.env.*` |
+| `process.env` / `import.meta.env` usage | None |
+| GitHub Actions secrets/vars | Workflow uses only `CI: false`; no `secrets.*` or `vars.*` |
+| Hardcoded passwords | None (Password Strength demo uses local state only) |
+| `credentialUrl` / `credentialId` | Public verification URLs (Forage, Oracle) — intended for sharing |
+| Contact email / GitHub | Intentional public info for portfolio contact |

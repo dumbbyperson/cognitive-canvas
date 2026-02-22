@@ -176,7 +176,7 @@ const CertificationsSection = () => {
   const [failedLogoIds, setFailedLogoIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
-    fetch('/data/certifications.json')
+    fetch(`${import.meta.env.BASE_URL}data/certifications.json`)
       .then((res) => (res.ok ? res.json() : Promise.reject(new Error('Not found'))))
       .then((data: Certification[]) => {
         if (Array.isArray(data) && data.length > 0) setCertifications(data);
